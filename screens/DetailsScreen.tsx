@@ -1,10 +1,18 @@
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import BackGround from '../components/BackGround';
 
-function DetailsScreen() {
+function DetailsScreen({ navigation }: { navigation: any }) {
     return (
-        <View className="flex-1 items-center justify-center bg-white">
-            <Text>Details Screen</Text>
-        </View>
+        <BackGround>
+
+            <View className="flex-1 items-center justify-center ">
+                <Text>Details Screen</Text>
+                <Button
+                    title="Go back"
+                    onPress={() => navigation.goBack()}
+                />
+            </View>
+        </BackGround>
     );
 }
 export default DetailsScreen
