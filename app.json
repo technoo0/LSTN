@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "App",
+    "name": "LSTN",
     "slug": "App",
+    "scheme": "demo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,7 +16,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.marwanfouda.App"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,6 +27,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7d3b2816-3220-4459-8b3f-6b6ee54e10e3"
+      }
     }
   }
 }

@@ -3,9 +3,12 @@ module.exports = {
     content: ["./App.{js,jsx,ts,tsx}", "./**/*.{js,jsx,ts,tsx}"],
     theme: {
         extend: {
-            backgroundImage: {
-                'gradientbg': "url('/assets/background.png')",
-            }
+            colors: {
+                'primary': "#FFB801",
+                'secondary': '#814783',
+                'text-primary': "#ffffff"
+            },
+
         },
     },
     plugins: [],
