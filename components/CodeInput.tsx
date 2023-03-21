@@ -25,8 +25,13 @@ const styles = StyleSheet.create({
 
 const CELL_COUNT = 5;
 
-const App = () => {
-    const [value, setValue] = useState('');
+interface Props {
+    value: string,
+    setValue: React.Dispatch<React.SetStateAction<string>>,
+    error: Boolean,
+}
+const App = ({ value, setValue, error }: Props) => {
+
     const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
         value,
@@ -46,7 +51,7 @@ const App = () => {
                 keyboardType="number-pad"
                 textContentType="oneTimeCode"
                 renderCell={({ index, symbol, isFocused }) => (
-                    <View className="w-14 h-20  border-gray-300 border-solid border-2 justify-center items-center mx-2 rounded-xl" key={index} >
+                    <View className={`w-14 h-20 ${error ? "border-red-500" : "border-gray-300"} border-solid border-2 justify-center items-center mx-2 rounded-xl`} key={index} >
 
                         <Text
                             className='text-text-primary text-4xl'

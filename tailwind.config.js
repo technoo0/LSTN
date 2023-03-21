@@ -1,6 +1,11 @@
 module.exports = {
 
-    content: ["./App.{js,jsx,ts,tsx}", "./**/*.{js,jsx,ts,tsx}"],
+    content: ["./App.{js,jsx,ts,tsx}"
+        , "./components/*.{js,jsx,ts,tsx}"
+        , "./screens/*.{js,jsx,ts,tsx}"
+        , "./svgs/*.{js,jsx,ts,tsx}"
+        , "./utils/*.{js,jsx,ts,tsx}"
+        , "./components/Auth/*.{js,jsx,ts,tsx}"],
     theme: {
         extend: {
             colors: {

@@ -2,7 +2,12 @@ import { View, Text, Button, TouchableOpacity, TextInput } from 'react-native';
 import BackGround from '../components/BackGround';
 import BackArrowSvg from '../svgs/BackArrow';
 import CodeInput from "../components/CodeInput"
+import { useEffect, useState } from 'react';
 function CodeScreen({ navigation }: { navigation: any }) {
+    const [value, setValue] = useState('')
+    useEffect(() => {
+        console.log(value)
+    }, [value])
     return (
         <BackGround>
 
@@ -23,7 +28,7 @@ function CodeScreen({ navigation }: { navigation: any }) {
 
             <View className='mt-20 justify-center items-center'>
                 {/* <TextInput className='text-text-primary text-2xl   w-11/12' keyboardType="numeric" /> */}
-                <CodeInput />
+                <CodeInput value={value} setValue={setValue} error={false} />
             </View>
 
         </BackGround>
