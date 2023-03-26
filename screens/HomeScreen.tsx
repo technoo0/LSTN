@@ -1,27 +1,20 @@
-import * as React from 'react';
-import { Button, View, Text, Image, TouchableOpacity } from 'react-native';
-import BackGround from '../components/BackGround';
+import { View, Text, Button } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import BackGround from '../components/BackGround'
+import { LogOut } from '../utils/Auth'
+import useStore from '../store'
+export default function HomeScreen() {
+    useEffect(() => {
+        console.log("user", useStore.getState().user)
+    })
 
-
-function HomeScreen({ navigation }: { navigation: any }) {
     return (
-
         <BackGround>
+            <View className='flex-1 justify-center items-center'>
 
-            <View className="flex-1 items-center justify-center gap-36  ">
-                <Text className='text-white text-lg'>Hear the music that surround you</Text>
-                <Image source={require("../imgs/app-simple-logo.png")} resizeMode="cover" className='w-[266px] h-[325px]' />
-                <TouchableOpacity
-                    className="bg-primary w-72 py-4 rounded-3xl items-center "
-                    onPress={() => navigation.navigate('Login')}
-                >
-                    <Text className='text-black text-md'>Get Started</Text>
-                </TouchableOpacity>
+                <Text>HomeScreen</Text>
+                <Button title='log out' onPress={LogOut} />
             </View>
         </BackGround>
-
-    );
+    )
 }
-
-export default HomeScreen
-

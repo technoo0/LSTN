@@ -5,6 +5,7 @@ import * as Facebook from "expo-auth-session/providers/facebook";
 import * as WebBrowser from "expo-web-browser";
 import FaceBookSvg from "../../svgs/FaceBookSvg";
 import { FACEBOOKID } from "@env"
+import Api from "../../utils/Api";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -25,12 +26,9 @@ export default function App() {
         if (response && response.type === "success" && response.authentication) {
             (async () => {
                 if (response.authentication) {
-                    const userInfoResponse = await fetch(
-                        `https://graph.facebook.com/me?access_token=${response.authentication.accessToken}&fields=id,name,picture.type(large)`
-                    );
-                    const userInfo = await userInfoResponse.json();
-                    console.log(userInfo)
-                    setUser(userInfo);
+                    const res = await Api.post('/auth/facebook', { token: response.authentication.accessToken })
+                    console.log(res.data)
+                    // setUser(userInfo);
                 }
             })();
         }

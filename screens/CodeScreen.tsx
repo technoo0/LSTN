@@ -1,12 +1,45 @@
-import { View, Text, Button, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, Button, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
 import BackGround from '../components/BackGround';
 import BackArrowSvg from '../svgs/BackArrow';
 import CodeInput from "../components/CodeInput"
 import { useEffect, useState } from 'react';
-function CodeScreen({ navigation }: { navigation: any }) {
+import Api from '../utils/Api';
+import useStore from '../store';
+import { HandelNewUser, Login } from '../utils/Auth';
+function CodeScreen({ route, navigation }: { route: any, navigation: any }) {
+    const { email } = route.params;
+    const [lodding, setLodding] = useState(false)
+    const [error, setError] = useState(false)
     const [value, setValue] = useState('')
+    const checkCode = async () => {
+        setLodding(true)
+        const res = await Api.post("/auth/code", {
+            email: email,
+            code: value
+        })
+        console.log(res.data)
+        if (res.data.msg == "wrong_code") {
+            setLodding(false)
+            setError(true)
+        } else if (res.data.msg == "newUser") {
+            console.log("new User")
+            const user = await HandelNewUser(res.data.jwt)
+
+            navigation.navigate("UserInfo", {
+                user,
+            })
+        } else if (res.data.msg == "login") {
+            console.log("login")
+            await Login(res.data.jwt)
+            navigation.navigate("Home")
+        }
+    }
     useEffect(() => {
-        console.log(value)
+        if (value.length == 5) {
+            console.log(value)
+            checkCode()
+
+        }
     }, [value])
     return (
         <BackGround>
@@ -28,8 +61,11 @@ function CodeScreen({ navigation }: { navigation: any }) {
 
             <View className='mt-20 justify-center items-center'>
                 {/* <TextInput className='text-text-primary text-2xl   w-11/12' keyboardType="numeric" /> */}
-                <CodeInput value={value} setValue={setValue} error={false} />
+                <CodeInput value={value} setValue={setValue} error={error} />
             </View>
+
+
+            {lodding && <ActivityIndicator className='mt-10' size="large" color="#814783"></ActivityIndicator>}
 
         </BackGround>
     );

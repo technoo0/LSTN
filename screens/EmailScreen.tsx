@@ -3,16 +3,26 @@ import BackGround from '../components/BackGround';
 import BackArrowSvg from '../svgs/BackArrow';
 import validator from 'validator';
 import { useState } from 'react';
+import Api from '../utils/Api';
 
 function EmailScreen({ navigation }: { navigation: any }) {
     const [Error, SetError] = useState(false)
     const [Email, SetEmail] = useState('')
+    const sendEmail = async () => {
+        const res = await Api.post("/auth/email", {
+            email: Email
+        })
+        console.log(res.data)
+    }
     const CountinueFunction = () => {
         //validate the email
         const vaild = validator.isEmail(Email)
         if (vaild) {
             SetError(false)
-            navigation.navigate('Code')
+            sendEmail()
+            navigation.navigate('Code', {
+                email: Email
+            })
         } else {
             SetError(true)
         }
@@ -38,6 +48,7 @@ function EmailScreen({ navigation }: { navigation: any }) {
             <View className='pt-32 pl-5'>
                 <TextInput className={`text-text-primary text-2xl ${Error ? "border-red-500" : "border-white"}   pb-2 border-b-[1px] w-11/12`}
                     placeholder="coolPerson@life.com"
+                    keyboardType='email-address'
                     onChangeText={(text) => SetEmail(text)}
                     value={Email} />
             </View>

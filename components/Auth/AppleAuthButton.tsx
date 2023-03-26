@@ -1,7 +1,8 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { View, StyleSheet } from 'react-native';
-
-export default function AppleAuthButton() {
+import Api from '../../utils/Api';
+import { Login } from '../../utils/Auth';
+export default function AppleAuthButton({ navigation }) {
     return (
         <View className='justify-center items-center mb-2' >
             <AppleAuthentication.AppleAuthenticationButton
@@ -18,7 +19,24 @@ export default function AppleAuthButton() {
                             ],
                         });
                         // signed in
-                        console.log(credential)
+
+                        try {
+
+                            const res = await Api.post("/auth/apple", credential, {
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            console.log("done")
+                            console.log(res.data)
+                            if (res.data.msg == "login") {
+                                await Login(res.data.jwt)
+                                navigation.navigate('Home')
+                            }
+                        } catch (e) {
+                            console.log(e)
+
+                        }
                     } catch (e: any) {
                         if (e.code === 'ERR_REQUEST_CANCELED') {
                             // handle that the user canceled the sign-in flow

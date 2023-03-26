@@ -20,7 +20,7 @@ function HomeScreen({ navigation }: { navigation: any }) {
                 <Image source={require("../imgs/app-simple-logo.png")} resizeMode="cover" className='w-[266px] h-[325px]' />
                 <View className=''>
 
-                    <AppleAuthButton />
+                    <AppleAuthButton navigation={navigation} />
 
                     <GoogleAuthBotton />
 
