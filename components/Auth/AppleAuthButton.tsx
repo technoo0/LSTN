@@ -1,7 +1,7 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { View, StyleSheet } from 'react-native';
 import Api from '../../utils/Api';
-import { Login } from '../../utils/Auth';
+import { HandelNewUser, Login } from '../../utils/Auth';
 export default function AppleAuthButton({ navigation }) {
     return (
         <View className='justify-center items-center mb-2' >
@@ -32,6 +32,13 @@ export default function AppleAuthButton({ navigation }) {
                             if (res.data.msg == "login") {
                                 await Login(res.data.jwt)
                                 navigation.navigate('Home')
+                            } else if (res.data.msg == "newUser") {
+                                console.log("new User")
+                                const user = await HandelNewUser(res.data.jwt)
+
+                                navigation.navigate("UserInfo", {
+                                    user,
+                                })
                             }
                         } catch (e) {
                             console.log(e)

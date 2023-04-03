@@ -14,8 +14,13 @@ const Login = async (jwt: string) => {
 const HandelNewUser = async (jwt: string) => {
   try {
     await Login(jwt)
-    const user = await checkAuth()
-    return user
+    const res = await checkAuth()
+    if (res.msg == "OK") {
+
+      return res.user
+    } else {
+      return Error
+    }
   } catch (e) {
     console.log(e)
   }

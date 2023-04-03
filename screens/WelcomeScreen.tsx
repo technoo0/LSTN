@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Button, View, Text, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import BackGround from '../components/BackGround';
 
 
@@ -8,7 +9,7 @@ function HomeScreen({ navigation }: { navigation: any }) {
 
         <BackGround>
 
-            <View className="flex-1 items-center justify-center gap-36  ">
+            <SafeAreaView className="flex-1 items-center justify-between">
                 <Text className='text-white text-lg'>Hear the music that surround you</Text>
                 <Image source={require("../imgs/app-simple-logo.png")} resizeMode="cover" className='w-[266px] h-[325px]' />
                 <TouchableOpacity
@@ -17,7 +18,7 @@ function HomeScreen({ navigation }: { navigation: any }) {
                 >
                     <Text className='text-black text-md'>Get Started</Text>
                 </TouchableOpacity>
-            </View>
+            </SafeAreaView>
         </BackGround>
 
     );

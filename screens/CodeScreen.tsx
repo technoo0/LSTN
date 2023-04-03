@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Api from '../utils/Api';
 import useStore from '../store';
 import { HandelNewUser, Login } from '../utils/Auth';
+import { SafeAreaView } from 'react-native-safe-area-context';
 function CodeScreen({ route, navigation }: { route: any, navigation: any }) {
     const { email } = route.params;
     const [lodding, setLodding] = useState(false)
@@ -43,29 +44,31 @@ function CodeScreen({ route, navigation }: { route: any, navigation: any }) {
     }, [value])
     return (
         <BackGround>
+            <SafeAreaView>
 
-            <View className='top-12 left-5 z-10'>
+                <View className='ml-3'>
 
-                <TouchableOpacity
-                    className=''
-                    onPress={() => navigation.goBack()}
-                >
-                    <BackArrowSvg />
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                        className=''
+                        onPress={() => navigation.goBack()}
+                    >
+                        <BackArrowSvg />
+                    </TouchableOpacity>
+                </View>
 
-            <View className='pt-32 pl-5'>
-                <Text className='text-text-primary text-4xl ' >Verification code</Text>
-            </View>
-
-
-            <View className='mt-20 justify-center items-center'>
-                {/* <TextInput className='text-text-primary text-2xl   w-11/12' keyboardType="numeric" /> */}
-                <CodeInput value={value} setValue={setValue} error={error} />
-            </View>
+                <View className='mt-10 pl-5'>
+                    <Text className='text-text-primary text-4xl ' >Verification code</Text>
+                </View>
 
 
-            {lodding && <ActivityIndicator className='mt-10' size="large" color="#814783"></ActivityIndicator>}
+                <View className='mt-20 justify-center items-center'>
+                    {/* <TextInput className='text-text-primary text-2xl   w-11/12' keyboardType="numeric" /> */}
+                    <CodeInput value={value} setValue={setValue} error={error} />
+                </View>
+
+
+                {lodding && <ActivityIndicator className='mt-10' size="large" color="#814783"></ActivityIndicator>}
+            </SafeAreaView>
 
         </BackGround>
     );

@@ -3,18 +3,23 @@ import React, { useEffect, useState } from 'react'
 import BackGround from '../components/BackGround'
 import { LogOut } from '../utils/Auth'
 import useStore from '../store'
-export default function HomeScreen() {
+import { SafeAreaView } from 'react-native-safe-area-context'
+export default function HomeScreen({ navigation }) {
     useEffect(() => {
         console.log("user", useStore.getState().user)
     })
+    const HandelLogOut = async () => {
+        await LogOut()
+        navigation.navigate('Welcome')
+    }
 
     return (
         <BackGround>
-            <View className='flex-1 justify-center items-center'>
+            <SafeAreaView className='flex-1 justify-center items-center'>
 
                 <Text>HomeScreen</Text>
-                <Button title='log out' onPress={LogOut} />
-            </View>
+                <Button title='log out' onPress={HandelLogOut} />
+            </SafeAreaView>
         </BackGround>
     )
 }

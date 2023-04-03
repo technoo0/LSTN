@@ -4,6 +4,7 @@ import BackGround from '../components/BackGround';
 import GoogleAuthBotton from '../components/Auth/GoogleAuthBotton';
 import AppleAuthButton from '../components/Auth/AppleAuthButton';
 import FaceBookAuthButton from '../components/Auth/FaceBookAuthButton';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -16,15 +17,15 @@ function HomeScreen({ navigation }: { navigation: any }) {
 
         <BackGround>
 
-            <View className="flex-1 items-center justify-center gap-36  ">
+            <SafeAreaView className="flex-1 items-center justify-between my-6">
                 <Image source={require("../imgs/app-simple-logo.png")} resizeMode="cover" className='w-[266px] h-[325px]' />
                 <View className=''>
 
                     <AppleAuthButton navigation={navigation} />
 
-                    <GoogleAuthBotton />
+                    <GoogleAuthBotton navigation={navigation} />
 
-                    <FaceBookAuthButton />
+                    <FaceBookAuthButton navigation={navigation} />
 
                     <TouchableOpacity
                         className="bg-primary w-72 py-3 rounded-3xl items-center "
@@ -33,7 +34,7 @@ function HomeScreen({ navigation }: { navigation: any }) {
                         <Text className='text-black text-md'>Continue with Email</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         </BackGround>
 
     );

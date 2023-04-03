@@ -4,6 +4,7 @@ import BackArrowSvg from '../svgs/BackArrow';
 import validator from 'validator';
 import { useState } from 'react';
 import Api from '../utils/Api';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function EmailScreen({ navigation }: { navigation: any }) {
     const [Error, SetError] = useState(false)
@@ -29,38 +30,47 @@ function EmailScreen({ navigation }: { navigation: any }) {
     }
     return (
         <BackGround>
+            <SafeAreaView className='flex-1'>
+                <View className='ml-3 mb-10'>
 
-            <View className='top-12 left-5 z-10'>
+                    <TouchableOpacity
+                        className=''
+                        onPress={() => navigation.goBack()}
+                    >
+                        <BackArrowSvg />
+                    </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity
-                    className=''
-                    onPress={() => navigation.goBack()}
-                >
-                    <BackArrowSvg />
-                </TouchableOpacity>
-            </View>
+                <View className='flex-1 justify-between'>
 
-            <View className='pt-32 pl-5'>
-                <Text className='text-text-primary text-4xl ' >My email is</Text>
-            </View>
+                    <View>
+
+                        <Text className='text-text-primary text-4xl mb-20 ml-3 ' >My email is</Text>
 
 
-            <View className='pt-32 pl-5'>
-                <TextInput className={`text-text-primary text-2xl ${Error ? "border-red-500" : "border-white"}   pb-2 border-b-[1px] w-11/12`}
-                    placeholder="coolPerson@life.com"
-                    keyboardType='email-address'
-                    onChangeText={(text) => SetEmail(text)}
-                    value={Email} />
-            </View>
+                        <View className='w-full items-center px-3'>
+                            <TextInput className={`text-text-primary text-2xl ${Error ? "border-red-500" : "border-white"}   pb-2 border-b-[1px] w-full `}
+                                placeholder="coolPerson@life.com"
+                                keyboardType='email-address'
+                                onChangeText={(text) => SetEmail(text)}
+                                value={Email} />
+                        </View>
+                    </View>
 
-            <View className='flex-1 justify-center items-center' >
-                <TouchableOpacity
-                    className="bg-primary w-72 py-3 rounded-3xl items-center "
-                    onPress={CountinueFunction}
-                >
-                    <Text className='text-text-primary text-xl'>Continue</Text>
-                </TouchableOpacity>
-            </View>
+                    <View className='w-full items-center mb-10'>
+
+                        <TouchableOpacity
+                            className="bg-primary w-72 py-3 rounded-3xl items-center "
+                            onPress={CountinueFunction}
+                        >
+                            <Text className='text-text-primary text-xl'>Continue</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+
+
+            </SafeAreaView>
         </BackGround>
     );
 }

@@ -6,10 +6,11 @@ import * as WebBrowser from "expo-web-browser";
 import FaceBookSvg from "../../svgs/FaceBookSvg";
 import { FACEBOOKID } from "@env"
 import Api from "../../utils/Api";
+import { HandelNewUser, Login } from "../../utils/Auth";
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function App() {
+export default function App({ navigation }) {
     const [user, setUser] = useState(null);
     const [request, response, promptAsync] = Facebook.useAuthRequest({
         clientId: FACEBOOKID,
@@ -28,6 +29,17 @@ export default function App() {
                 if (response.authentication) {
                     const res = await Api.post('/auth/facebook', { token: response.authentication.accessToken })
                     console.log(res.data)
+                    if (res.data.msg == "login") {
+                        await Login(res.data.jwt)
+                        navigation.navigate('Home')
+                    } else if (res.data.msg == "newUser") {
+                        console.log("new User")
+                        const user = await HandelNewUser(res.data.jwt)
+
+                        navigation.navigate("UserInfo", {
+                            user,
+                        })
+                    }
                     // setUser(userInfo);
                 }
             })();

@@ -9,9 +9,10 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { useState, useEffect } from 'react';
 import Api from '../../utils/Api';
+import { HandelNewUser, Login } from '../../utils/Auth';
 WebBrowser.maybeCompleteAuthSession();
 
-export default function GoogleAuthBotton() {
+export default function GoogleAuthBotton({ navigation }) {
 
     const [token, setToken] = useState("");
     const [userInfo, setUserInfo] = useState(null);
@@ -43,6 +44,17 @@ export default function GoogleAuthBotton() {
                     token
                 })
                 console.log(res.data)
+                if (res.data.msg == "login") {
+                    await Login(res.data.jwt)
+                    navigation.navigate('Home')
+                } else if (res.data.msg == "newUser") {
+                    console.log("new User")
+                    const user = await HandelNewUser(res.data.jwt)
+                    console.log("user data from google", user)
+                    navigation.navigate("UserInfo", {
+                        user,
+                    })
+                }
             }
             // const response = await fetch(
             //     "https://www.googleapis.com/userinfo/v2/me",
