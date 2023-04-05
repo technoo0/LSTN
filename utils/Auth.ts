@@ -43,7 +43,7 @@ const checkAuth = async () => {
       const user = await Api.get('/user', {
         headers: { Authorization: value }
       })
-      // console.log(user.data)
+      console.log("user data", user.data)
       return user.data
 
     } else {

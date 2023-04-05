@@ -5,4 +5,5 @@ declare module '@env' {
     export const EXPOCLIENTID: string;
     export const IOSCLIENTISD: string;
     export const BaseURL: string;
+    export const SPOTIFYID: string
 }

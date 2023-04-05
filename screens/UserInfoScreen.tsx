@@ -93,7 +93,7 @@ export default function UserInfoScreen({ route, navigation }: { route: any, navi
                 })
                 console.log(res.data)
                 if (res.data.msg == "OK") {
-                    navigation.navigate('Home')
+                    navigation.navigate('MusicApp')
                 } else {
                     alert("an error has occurred please try again later")
                 }
