@@ -32,7 +32,9 @@ export default function HomeScreen({ navigation }) {
         <BackGround>
             <SafeAreaView className='flex-1'>
                 {!Searching ? <Animated.View entering={FadeIn} exiting={FadeOut} className='left-4'>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        navigation.navigate('Settings')
+                    }}>
                         <GearSvg />
                     </TouchableOpacity>
                 </Animated.View> : <Animated.View entering={FadeIn} exiting={FadeOut} className='w-full items-end pr-4'>

@@ -16,6 +16,7 @@ import SplashScreen from './screens/SplashScreen';
 import useStore from './store';
 import UserInfoScreen from './screens/UserInfoScreen';
 import LinkMusicApp from './screens/LinkMusicApp';
+import SettingsScreen from './screens/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +57,7 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="UserInfo" component={UserInfoScreen} options={{ headerShown: false }} />
         <Stack.Screen name="MusicApp" component={LinkMusicApp} options={{ headerShown: false }} />
+        <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>
