@@ -4,32 +4,82 @@ import { CloseUser } from "../types/data"
 import Api, { getheaders } from '../utils/Api'
 import PlaySvg from '../svgs/PlaySvg'
 import moment from 'moment'
-// import { Audio } from 'expo-av';
+import LikeSvg from '../svgs/LikeSvg'
+import { GetLikeStauts, SendLikeTo, UnLikeUser } from '../utils/Like'
+import LikedSvg from '../svgs/LikedSvg'
+import { Audio } from 'expo-av';
 type props = {
     data: CloseUser
 }
 
 export default function UserCard({ data }: props) {
     const [expanded, setExpanded] = useState(false)
-    const [sound, setSound] = React.useState();
+    const [soundplaying, setSoundplaying] = useState(false);
+    const [sound, setSound] = useState<Audio.Sound | null>(null)
+    const [liked, setLiked] = useState(false)
+    const UpdateLike = async () => {
+
+        const result = await GetLikeStauts(data.user.id)
+        setLiked(result)
+    }
+
+    useEffect(() => {
+        if (expanded) {
+            UpdateLike()
+        }
+    }, [expanded])
     const userAge = (birthday: Date) => {
         const currentDate = moment();
         const userBirthday = moment(birthday, 'YYYY-MM-DD');
         const userAge = currentDate.diff(userBirthday, 'years');
         return userAge
     }
-    // const playSound = async () => {
-    //     const sound = new Audio.Sound()
+    const sendLike = async () => {
+        if (!liked) {
 
-    //     await sound.loadAsync({
-    //         uri: data.song.link
-    //     })
+            const result = await SendLikeTo(data.user.id)
+            if (result.msg == "OK") {
+                setLiked(true)
+            } else {
+                alert("An Error has Occurred")
+            }
+        } else {
+            const result = await UnLikeUser(data.user.id)
+            if (result.msg == "OK") {
+                setLiked(false)
+            } else {
+                alert("An Error has Occurred")
+            }
+        }
+    }
+    const playSound = async () => {
+        const sound = new Audio.Sound()
+        setSound(sound)
+        await sound.loadAsync({
+            uri: data.song.link
+        })
 
-    //     await sound.playAsync()
-    // }
+        await sound.playAsync()
+    }
+    const handelPlayPress = async () => {
+        if (!soundplaying) {
+            setSoundplaying(true)
+            await playSound()
+        } else {
+            setSoundplaying(false)
+            sound.stopAsync()
+        }
+
+    }
     useEffect(() => {
-        console.log(data)
-    }, [])
+        return sound
+            ? () => {
+                console.log('Unloading Sound');
+                sound.unloadAsync();
+            }
+            : undefined;
+    }, [sound]);
+
     const Handelclick = async () => {
         setExpanded(!expanded)
     }
@@ -54,13 +104,18 @@ export default function UserCard({ data }: props) {
                         {!expanded && <View className=' items-end mr-4 mt-3'>
                             <Text className='text-gray-600'>{String(Math.round(data.distance)) + " miles"}</Text>
                         </View>}
+                        {expanded && <View className=' items-end mr-4 mt-3'>
+                            <TouchableOpacity onPress={sendLike}>
+                                {!liked ? <LikeSvg /> : <LikedSvg />}
+                            </TouchableOpacity>
+                        </View>}
                     </View>
                 </View>
                 {expanded && <View className='w-max mt-3'>
                     <Text className='text-gray-600 ml-2 mb-3'>{data.user.name} Currently Listening To</Text>
                     <View className='w-max flex-row'>
 
-                        <TouchableOpacity className='w-24 justify-center items-center'>
+                        <TouchableOpacity className='w-24 justify-center items-center' onPress={handelPlayPress}>
                             <Image source={{ uri: data.song.songImage }} className={"h-24 w-24 rounded-full"} />
                             <PlaySvg className="absolute" />
                         </TouchableOpacity>

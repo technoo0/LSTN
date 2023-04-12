@@ -1,4 +1,5 @@
 type CloseUserData = {
+    id: string,
     name: string,
     profileImage: string | null,
     birthdate: Date,
