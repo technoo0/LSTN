@@ -20,7 +20,7 @@ you can check the full UI design over at Figma [HERE](https://www.figma.com/file
 
 ## Installation
 
-unfortunately, there is no way to install the app on your phone to try it because Expo has disabled the ability can authenticate users using the ExpoGo app for security reasons
+unfortunately, there is no way to install the app on your phone to try it because Expo has disabled the ability to authenticate users using the ExpoGo app for security reasons
 
 you can watch this video that shows the app at work  
 
