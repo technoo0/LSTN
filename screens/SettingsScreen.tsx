@@ -9,12 +9,12 @@ import useUserDataForm, { checkForm } from '../hooks/useUserDataForm'
 import Api, { getheaders } from '../utils/Api'
 import useStore from '../store'
 import { LogOut } from '../utils/Auth'
+import BackArrowSvg from '../svgs/BackArrow'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function SettingsScreen({ route, navigation }: { route: any, navigation: any }) {
     const user = useStore.getState().user;
-    useEffect(() => {
-        console.log("settings user", user)
-    })
+
     //"bio": null, "birthdate": null, "email": "Marwan.png@gmail.com", "name": "user", "profileImage": null}
     const [selectedDate, setSelectedDate] = useState('');
     const [openDate, setOpenDate] = useState(false)
@@ -29,6 +29,8 @@ export default function SettingsScreen({ route, navigation }: { route: any, navi
         bio: user.bio || "",
         image: user.profileImage || "",
     })
+
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -77,7 +79,7 @@ export default function SettingsScreen({ route, navigation }: { route: any, navi
         setSelectedDate(moment(user.birthdate).format("YYYY/MM/DD"))
 
 
-    }, [user])
+    }, [])
 
     useEffect(() => {
         // console.log(values)
@@ -140,89 +142,99 @@ export default function SettingsScreen({ route, navigation }: { route: any, navi
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 
                 <ScrollView >
+                    <SafeAreaView className="">
+                        <View className='left-3'>
+                            <TouchableOpacity
+                                className=''
+                                onPress={() => navigation.goBack()}
+                            >
+                                <BackArrowSvg />
+                            </TouchableOpacity>
+                        </View>
 
-                    <View className='flex-1 py-32 items-center justify-between'>
+                        <View className='flex-1 pt-5  items-center justify-between'>
 
-                        <TouchableOpacity onPress={pickImage}>
+                            <TouchableOpacity onPress={pickImage}>
 
 
-                            {image ? <Image source={{ uri: image }} style={{ width: 200, height: 200 }} className="rounded-full border-white border-4" /> : <AddImage />}
-                        </TouchableOpacity>
+                                {image ? <Image source={{ uri: image }} style={{ width: 200, height: 200 }} className="rounded-full border-white border-4" /> : <AddImage />}
+                            </TouchableOpacity>
 
-                        <View className='w-full px-5' >
-                            <View className='mb-2'>
+                            <View className='w-full px-5' >
+                                <View className='mb-2'>
 
-                                <Text className='text-slate-200 text-base mb-2 '>Name</Text>
+                                    <Text className='text-slate-200 text-base mb-2 '>Name</Text>
 
-                                <TextInput className={`text-text-primary text-xl   p-2 pb-3 border-[1px] ${Errors.includes('name') ? 'border-red-600' : "border-primary"}  rounded-lg `}
-                                    placeholder="Enter your name"
-                                    keyboardType='email-address'
-                                    onChangeText={(text) => HandelDataChange({ name: "name", value: text })}
-                                    value={values.name ? String(values.name) : ""}
-                                />
+                                    <TextInput className={`text-text-primary text-xl   p-2 pb-3 border-[1px] ${Errors.includes('name') ? 'border-red-600' : "border-primary"}  rounded-lg `}
+                                        placeholder="Enter your name"
+                                        keyboardType='email-address'
+                                        onChangeText={(text) => HandelDataChange({ name: "name", value: text })}
+                                        value={values.name ? String(values.name) : ""}
+                                    />
+                                </View>
+
+                                <View>
+                                    <Text className='text-slate-300 text-base mb-2'>Birthday</Text>
+                                    <TouchableOpacity className={`p-2 border-[1px] ${Errors.includes('birthday') ? 'border-red-600' : "border-primary"} rounded-lg `} onPress={() => setOpenDate(true)}>
+                                        {selectedDate ? <Text className='text-white text-xl'>{FormateDate(selectedDate)}</Text> : <Text className='text-gray-400 text-xl'>MM/DD/YY</Text>}
+
+                                    </TouchableOpacity>
+
+
+                                    <Modal animationType='slide' transparent={true} visible={openDate} >
+                                        <View className='flex-1 justify-center items-center p-5'>
+                                            <View className='w-full p-3 rounded-lg bg-white'>
+
+                                                <DatePicker
+                                                    options={{ textHeaderColor: '#FFB801', mainColor: '#FFB801', }}
+                                                    mode="calendar"
+                                                    onSelectedChange={HandelDateChange}
+                                                    current="2020-07-13"
+                                                />
+                                                <TouchableOpacity className={`bg-primary rounded-3xl p-2 items-center mx-14`} onPress={() => setOpenDate(false)}>
+                                                    <Text className='text-white text-xl'>Close</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </Modal>
+
+                                </View>
+                                <View className='mt-2'>
+
+                                    <Text className='text-slate-300 text-base mb-2 '>Bio</Text>
+
+                                    <TextInput className={`text-text-primary text-xl   p-2 pb-3 border-[1px] border-primary rounded-lg `}
+                                        placeholder="Write Who You Are"
+                                        keyboardType='default'
+                                        onChangeText={(text) => HandelDataChange({ name: "bio", value: text })}
+                                        value={values.bio}
+                                    />
+                                </View>
                             </View>
 
-                            <View>
-                                <Text className='text-slate-300 text-base mb-2'>Birthday</Text>
-                                <TouchableOpacity className={`p-2 border-[1px] ${Errors.includes('birthday') ? 'border-red-600' : "border-primary"} rounded-lg `} onPress={() => setOpenDate(true)}>
-                                    {selectedDate ? <Text className='text-white text-xl'>{FormateDate(selectedDate)}</Text> : <Text className='text-gray-400 text-xl'>MM/DD/YY</Text>}
+                            <View className='items-center mt-5'>
+
+                                <TouchableOpacity
+                                    className="bg-primary w-72 py-3 rounded-full items-center "
+                                    onPress={HandelSubmit}
+                                >
+                                    {!loading ? <Text className='text-text-primary text-xl'>Save Changes</Text> :
+                                        <ActivityIndicator size="large" color="#814783"></ActivityIndicator>}
+                                </TouchableOpacity>
+                            </View>
+                            <View className='items-center mt-5'>
+
+                                <TouchableOpacity
+                                    className="bg-red-600 w-72 py-3 rounded-full items-center "
+                                    onPress={HandelLogOut}
+                                >
+                                    <Text className='text-text-primary text-xl'>Logout</Text>
 
                                 </TouchableOpacity>
-
-
-                                <Modal animationType='slide' transparent={true} visible={openDate} >
-                                    <View className='flex-1 justify-center items-center p-5'>
-                                        <View className='w-full p-3 rounded-lg bg-white'>
-
-                                            <DatePicker
-                                                options={{ textHeaderColor: '#FFB801', mainColor: '#FFB801', }}
-                                                mode="calendar"
-                                                onSelectedChange={HandelDateChange}
-                                                current="2020-07-13"
-                                            />
-                                            <TouchableOpacity className={`bg-primary rounded-3xl p-2 items-center mx-14`} onPress={() => setOpenDate(false)}>
-                                                <Text className='text-white text-xl'>Close</Text>
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                </Modal>
-
                             </View>
-                            <View className='mt-2'>
 
-                                <Text className='text-slate-300 text-base mb-2 '>Bio</Text>
-
-                                <TextInput className={`text-text-primary text-xl   p-2 pb-3 border-[1px] border-primary rounded-lg `}
-                                    placeholder="Write Who You Are"
-                                    keyboardType='default'
-                                    onChangeText={(text) => HandelDataChange({ name: "bio", value: text })}
-                                    value={values.bio}
-                                />
-                            </View>
                         </View>
-
-                        <View className='items-center mt-5'>
-
-                            <TouchableOpacity
-                                className="bg-primary w-72 py-3 rounded-full items-center "
-                                onPress={HandelSubmit}
-                            >
-                                {!loading ? <Text className='text-text-primary text-xl'>Save Changes</Text> :
-                                    <ActivityIndicator size="large" color="#814783"></ActivityIndicator>}
-                            </TouchableOpacity>
-                        </View>
-                        <View className='items-center mt-5'>
-
-                            <TouchableOpacity
-                                className="bg-red-600 w-72 py-3 rounded-full items-center "
-                                onPress={HandelLogOut}
-                            >
-                                <Text className='text-text-primary text-xl'>Logout</Text>
-
-                            </TouchableOpacity>
-                        </View>
-
-                    </View>
+                    </SafeAreaView>
                 </ScrollView>
             </KeyboardAvoidingView>
 

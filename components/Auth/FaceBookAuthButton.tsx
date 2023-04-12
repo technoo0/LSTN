@@ -35,7 +35,7 @@ export default function App({ navigation }) {
                     } else if (res.data.msg == "newUser") {
                         console.log("new User")
                         const user = await HandelNewUser(res.data.jwt)
-
+                        console.log("serlizen user error", user)
                         navigation.navigate("UserInfo", {
                             user,
                         })

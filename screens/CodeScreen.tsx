@@ -25,7 +25,7 @@ function CodeScreen({ route, navigation }: { route: any, navigation: any }) {
         } else if (res.data.msg == "newUser") {
             console.log("new User")
             const user = await HandelNewUser(res.data.jwt)
-
+            console.log("new user data in codeScreen", user)
             navigation.navigate("UserInfo", {
                 user,
             })

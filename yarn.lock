@@ -4418,6 +4418,11 @@ expo-auth-session@~4.0.3:
     invariant "^2.2.4"
     qs "^6.11.0"
 
+expo-av@~13.2.1:
+  version "13.2.1"
+  resolved "https://registry.yarnpkg.com/expo-av/-/expo-av-13.2.1.tgz#ce502a4c5d4a57962fd9f5f1a40c76c39c88f5ee"
+  integrity sha512-mC0mYSzaOaZgXjzhW2l4Ag325JjH6q5IbptfwD7gkMOFYy7VPOMxEMUnetadbs3DDzmgE6vUWrTjUIUbwq59qg==
+
 expo-constants@~14.2.0, expo-constants@~14.2.1:
   version "14.2.1"
   resolved "https://registry.npmjs.org/expo-constants/-/expo-constants-14.2.1.tgz"
@@ -4512,6 +4517,11 @@ expo-linking@~4.0.0:
     invariant "^2.2.4"
     qs "^6.11.0"
     url-parse "^1.5.9"
+
+expo-location@~15.1.1:
+  version "15.1.1"
+  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-15.1.1.tgz#9289ca687afbdb73d847cc8c821ab66746eb9d47"
+  integrity sha512-hoKRlmi6Ya+NeZ72Zt385SDcSsIDpJI60TCBVO+Hc9xfKA9Hyminyyo5WiwI8J03igmPTCl8Y37MxBNKY9AWkg==
 
 expo-manifests@~0.5.0:
   version "0.5.2"

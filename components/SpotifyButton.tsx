@@ -15,7 +15,7 @@ export default function SpotifyButton2({ navigation }) {
         }, {
             headers
         })
-        c
+
         if (res.data.msg == "OK") {
             navigation.navigate("Home")
         }

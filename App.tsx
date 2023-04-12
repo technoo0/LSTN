@@ -17,6 +17,7 @@ import useStore from './store';
 import UserInfoScreen from './screens/UserInfoScreen';
 import LinkMusicApp from './screens/LinkMusicApp';
 import SettingsScreen from './screens/SettingsScreen';
+import ResultScreen from './screens/ResultScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,15 +25,21 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   const [initialRouteName, setinitialRouteName] = useState("Welcome")
+  const [User, setUser] = useState({})
   const [loading, setLoading] = useState(true);
   const SaveDataOnOpen = async () => {
     try {
 
       const user = await checkAuth()
-      if (user) {
-        useStore.setState({ user: user })
+      if (user.msg == "OK") {
+        useStore.setState({ user: user.user })
         setinitialRouteName("Home")
 
+      } else {
+        // console.log("maro faro", user)
+        useStore.setState({ user: user.user })
+        setUser(user.user)
+        setinitialRouteName("UserInfo")
       }
     } catch (e) {
       console.log("splashScreenError", e)
@@ -42,7 +49,7 @@ function App() {
 
   useEffect(() => {
     SaveDataOnOpen()
-  })
+  }, [])
   if (loading) {
     return <SplashScreen />; //Or something to show that you are still warming up!
   }
@@ -55,9 +62,10 @@ function App() {
         <Stack.Screen name="Email" component={EmailScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Code" component={CodeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="UserInfo" component={UserInfoScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="UserInfo" component={UserInfoScreen} options={{ headerShown: false }} initialParams={{ user: User }} />
         <Stack.Screen name="MusicApp" component={LinkMusicApp} options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Result" component={ResultScreen} options={{ headerShown: false }} />
 
       </Stack.Navigator>
     </NavigationContainer>

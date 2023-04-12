@@ -13,7 +13,7 @@ function HomeScreen({ navigation }: { navigation: any }) {
                 <Text className='text-white text-lg'>Hear the music that surround you</Text>
                 <Image source={require("../imgs/app-simple-logo.png")} resizeMode="cover" className='w-[266px] h-[325px]' />
                 <TouchableOpacity
-                    className="bg-primary w-72 py-4 rounded-3xl items-center "
+                    className="bg-primary w-72 py-4 rounded-3xl items-center  mb-4"
                     onPress={() => navigation.navigate('Login')}
                 >
                     <Text className='text-black text-md'>Get Started</Text>

@@ -15,7 +15,8 @@ const HandelNewUser = async (jwt: string) => {
   try {
     await Login(jwt)
     const res = await checkAuth()
-    if (res.msg == "OK") {
+    console.log("result form check", res)
+    if (res.msg == "OK" || res.msg == "newUser") {
 
       return res.user
     } else {
@@ -43,8 +44,8 @@ const checkAuth = async () => {
       const user = await Api.get('/user', {
         headers: { Authorization: value }
       })
-      console.log("user data", user.data.user)
-      return user.data.user
+      // console.log("user data", user.data.user)
+      return user.data
 
     } else {
       return null

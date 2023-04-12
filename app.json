@@ -21,6 +21,12 @@
         {
           "photosPermission": "The app accesses your photos to let you choese your profile photo"
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow LSTN to use your location."
+        }
       ]
     ],
     "ios": {
@@ -31,7 +37,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#1D1D1D"
-      }
+      },
+      "package": "com.marwan.lstn"
     },
     "web": {
       "favicon": "./assets/favicon.png"

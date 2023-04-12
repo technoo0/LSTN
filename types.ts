@@ -1,8 +1,8 @@
 type User = {
-    name: String,
-    email: String,
-    bio: String,
-    profileImage: String,
+    name: string,
+    email: string,
+    bio: string,
+    profileImage: string,
     birthdate: Date
 }
 

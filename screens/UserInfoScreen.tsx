@@ -10,7 +10,7 @@ import Api, { getheaders } from '../utils/Api'
 
 export default function UserInfoScreen({ route, navigation }: { route: any, navigation: any }) {
     const { user } = route.params;
-    //"bio": null, "birthdate": null, "email": "Marwan.png@gmail.com", "name": "user", "profileImage": null}
+
     const [selectedDate, setSelectedDate] = useState('');
     const [openDate, setOpenDate] = useState(false)
     const [image, setImage] = useState(null);
@@ -19,11 +19,13 @@ export default function UserInfoScreen({ route, navigation }: { route: any, navi
 
 
     const { values, HandelDataChange } = useUserDataForm({
-        name: "",
+        name: user.name || "",
         birthday: new Date(),
-        bio: "",
+        bio: user.bio || "",
         image: user.profileImage || "",
     })
+
+
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -38,11 +40,11 @@ export default function UserInfoScreen({ route, navigation }: { route: any, navi
 
         if (!result.canceled) {
             setImage(result.assets[0].uri);
-            console.log(result.assets[0].fileName)
-            console.log(result.assets[0].uri)
+            // console.log(result.assets[0].fileName)
+            // console.log(result.assets[0].uri)
             let imageUri = result.assets[0] ? `data:image/jpg;base64,${result.assets[0].base64}` : null;
             HandelDataChange({ name: "image", value: imageUri })
-            console.log({ uri: imageUri.slice(0, 100) });
+            // console.log({ uri: imageUri.slice(0, 100) });
             // const data = await fetchImageFromUri(result.assets[0].uri)
 
         }
@@ -61,40 +63,50 @@ export default function UserInfoScreen({ route, navigation }: { route: any, navi
     }
 
     useEffect(() => {
-        if (user.profileImage) {
-            setImage(user.profileImage)
-            console.log("profile photi", user.profileImage)
-            HandelDataChange({ name: "image", value: user.profileImage })
-        }
-        if (user.name) {
-            HandelDataChange({ name: "name", value: user.name })
-        }
-        console.log(user)
-    }, [user])
 
-    useEffect(() => {
-        // console.log(values)
-    }, [values])
+        setImage(user.profileImage)
+        // console.log("profile photi", user.profileImage)
+        HandelDataChange({ name: "image", value: user.profileImage })
+        if (user.name) {
+
+            HandelDataChange({ name: "name", value: String(user.name) })
+        }
+
+        if (user.bio) {
+
+            HandelDataChange({ name: "bio", value: user.bio })
+        }
+        if (user.birthdate) {
+
+            HandelDataChange({ name: "birthday", value: user.birthdate })
+            setSelectedDate(moment(user.birthdate).format("YYYY/MM/DD"))
+        }
+
+        // console.log(user)
+    }, [])
+
+
 
     const HandelSubmit = async () => {
 
         if (!loading) {
-            console.log(values)
+            // console.log(values)
             setLoading(true)
             const check_res = checkForm(values)
             SetErrors(check_res.Errors)
             if (check_res.status) {
-                console.log("good to goooooo")
+                // console.log("good to goooooo")
                 const headers = await getheaders()
                 const res = await Api.post("/user/newUserdata", {
                     ...values
                 }, {
                     headers: headers
                 })
-                console.log(res.data)
+                // console.log(res.data)
                 if (res.data.msg == "OK") {
                     navigation.navigate('MusicApp')
                 } else {
+                    // console.log(res)
                     alert("an error has occurred please try again later")
                 }
             } else {
@@ -102,7 +114,7 @@ export default function UserInfoScreen({ route, navigation }: { route: any, navi
                     alert("You must be 18 or older")
                 }
             }
-            console.log(check_res)
+            // console.log(check_res)
             setLoading(false)
         }
 
@@ -116,6 +128,7 @@ export default function UserInfoScreen({ route, navigation }: { route: any, navi
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 
                 <ScrollView >
+
 
                     <View className='flex-1 py-32 items-center justify-between'>
 
@@ -132,9 +145,9 @@ export default function UserInfoScreen({ route, navigation }: { route: any, navi
 
                                 <TextInput className={`text-text-primary text-xl   p-2 pb-3 border-[1px] ${Errors.includes('name') ? 'border-red-600' : "border-primary"}  rounded-lg `}
                                     placeholder="Enter your name"
-                                    keyboardType='email-address'
+                                    keyboardType='default'
                                     onChangeText={(text) => HandelDataChange({ name: "name", value: text })}
-                                    value={values.name ? String(values.name) : ""}
+                                    value={String(values.name)}
                                 />
                             </View>
 
@@ -171,7 +184,7 @@ export default function UserInfoScreen({ route, navigation }: { route: any, navi
                                     placeholder="Write Who You Are"
                                     keyboardType='default'
                                     onChangeText={(text) => HandelDataChange({ name: "bio", value: text })}
-                                // value={Email}
+                                    value={String(values.bio)}
                                 />
                             </View>
                         </View>

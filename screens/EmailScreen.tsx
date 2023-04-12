@@ -49,7 +49,8 @@ function EmailScreen({ navigation }: { navigation: any }) {
 
 
                         <View className='w-full items-center px-3'>
-                            <TextInput className={`text-text-primary text-2xl ${Error ? "border-red-500" : "border-white"}   pb-2 border-b-[1px] w-full `}
+                            <TextInput className={`text-text-primary text-2xl ${Error ? "border-red-500" : "border-gray-200"}   pb-2 border-b-[1px] w-full `}
+
                                 placeholder="coolPerson@life.com"
                                 keyboardType='email-address'
                                 onChangeText={(text) => SetEmail(text)}

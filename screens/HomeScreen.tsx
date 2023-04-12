@@ -1,10 +1,8 @@
 import { View, Text, Button, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import BackGround from '../components/BackGround'
-import { LogOut } from '../utils/Auth'
 import useStore from '../store'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import Api, { getheaders } from '../utils/Api'
 import GearSvg from '../svgs/GearSvg'
 import HomeLogoSvg from '../svgs/HomeLogoSvg'
 import HearingSvg from '../svgs/HearingSvg'
@@ -14,14 +12,43 @@ import Animated, {
     FadeIn,
 } from 'react-native-reanimated';
 import CancelSvg from '../svgs/CancelSvg'
-export default function HomeScreen({ navigation }) {
-    useEffect(() => {
-        console.log("user", useStore.getState().user)
-    })
-    const [Searching, setSearching] = useState(false)
+import useLocation from '../hooks/useLocation'
+import { SetUserLocation } from '../utils/UserLocation'
+import Api, { getheaders } from '../utils/Api'
 
+
+
+export default function HomeScreen({ navigation }) {
+    const { location, errorMsg } = useLocation()
+
+    useEffect(() => {
+        // console.log("user", useStore.getState().user)
+        // console.log("user Location", location)
+        if (location) {
+            SetUserLocation(location.coords.latitude, location.coords.longitude)
+        }
+    }, [location])
+    const [Searching, setSearching] = useState(false)
+    const findUsers = async () => {
+        const headers = await getheaders()
+        const resdata = await Api.get("/user/closeUsers", {
+            headers: headers
+        })
+
+        if (resdata.data.users.length > 0) {
+            StopSearching()
+            navigation.navigate("Result", {
+                users: resdata.data.users,
+            })
+        } else {
+            StopSearching()
+            alert("Couldn't find any users around you now try again later")
+        }
+    }
     const StartAnimation = () => {
+
         setSearching(true)
+        findUsers()
     }
     const StopSearching = () => {
         setSearching(false)
@@ -68,21 +95,3 @@ export default function HomeScreen({ navigation }) {
 }
 
 
- // const HandelLogOut = async () => {
-    //     await LogOut()
-    //     navigation.navigate('Welcome')
-    // }
-    // const HandelGetSong = async () => {
-    //     const headers = await getheaders()
-    //     const CuttrntSong = await Api.get("/user/getCurrentSong", {
-    //         headers: headers
-    //     })
-    //     console.log("Cuttrnt Song", CuttrntSong.data)
-    // }
-    // const HandelTopSong = async () => {
-    //     const headers = await getheaders()
-    //     const CuttrntSong = await Api.get("/user/getTopSong", {
-    //         headers: headers
-    //     })
-    //     console.log("Cuttrnt Song", CuttrntSong.data)
-    // }
