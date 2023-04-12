@@ -24,9 +24,7 @@ unfortunately, there is no way to install the app on your phone to try it becaus
 
 you can watch this video that shows the app at work  
 
-<div>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/cXNy7SF2p1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-</div>
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/cXNy7SF2p1s/0.jpg)](https://youtu.be/cXNy7SF2p1s)
 
 or you can clone the repo and build it yourself 
 
